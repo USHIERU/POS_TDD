@@ -30,7 +30,7 @@ class ProductDAO {
                 if (err) {
                     resolve(null);
                 } else {
-                    resolve(doc);
+                    resolve(new ProductDTO(doc));
                 }
             })
         );
@@ -43,7 +43,7 @@ class ProductDAO {
                 if (err) {
                     resolve(null);
                 } else {
-                    resolve(docs);
+                    resolve(docs.map(doc => new ProductDTO(doc)));
                 }
             })
         );
@@ -68,18 +68,18 @@ class ProductDAO {
 
     public async findOne(id: string): Promise<ProductDTO> {
         return await new Promise(resolve =>
-            this.database.findOne({ _id: id }, (err, userDTO) => {
+            this.database.findOne({ _id: id }, (err, doc) => {
                 if (err) console.log(err)
-                err ? resolve(null) : resolve(userDTO)
+                err ? resolve(null) : resolve(new ProductDTO(doc))
             })
         );
     }
 
     public async getAll(): Promise<ProductDTO[]> {
         return await new Promise(resolve =>
-            this.database.find({}, (err, userDTO) => {
+            this.database.find({}, (err, docs) => {
                 if (err) console.log(err)
-                err ? resolve(null) : resolve(userDTO)
+                err ? resolve(null) : resolve(docs.map(doc => new ProductDTO(doc)))
             })
         );
     }

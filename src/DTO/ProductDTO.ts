@@ -7,12 +7,21 @@ export default class ProductDTO {
     public price: number;
     public recipe: IngredientDTO[];
 
-    constructor(name: string, quantity: number, price: number, recipe = [], id = '') {
-        this._id = id;
-        this.name = name;
-        this.quantity = quantity;
-        this.price = price;
-        this.recipe = recipe;
+    constructor(_name: string | object, quantity?: number, price?: number, recipe = [], id = '') {
+        if (typeof _name === 'object') {
+            const { _id, name, quantity, price, recipe } = _name as ProductDTO;
+            this._id = _id;
+            this.name = name;
+            this.quantity = quantity;
+            this.price = price;
+            this.recipe = recipe;
+        } else if (typeof _name === 'string') {
+            this._id = id;
+            this.name = _name;
+            this.quantity = quantity;
+            this.price = price;
+            this.recipe = recipe;
+        }
     }
 
     addIngredient(ingredientDTO: IngredientDTO): void {
@@ -20,7 +29,7 @@ export default class ProductDTO {
     }
 
     addIngredients(ingredientsDTO: IngredientDTO[]): void {
-        this.recipe.push(... ingredientsDTO);
+        this.recipe.push(...ingredientsDTO);
     }
 
     deleteIngredient(id: string) {
