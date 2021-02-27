@@ -15,7 +15,7 @@ describe('User Tests', () => {
 
         const userDTOResponse = await UserDAO.insert(userDTO);
 
-        expect(userDTOResponse).toBeTruthy();
+        expect(userDTOResponse).toBeInstanceOf(UserDTO);
     });
 
     test('Insert many Users', async () => {
@@ -27,7 +27,9 @@ describe('User Tests', () => {
 
         const manyUsers = await UserDAO.insertMany(usersDTO);
 
-        expect(manyUsers).toBeTruthy();
+        manyUsers.forEach(user =>
+            expect(user).toBeInstanceOf(UserDTO)
+        );
     });
 
     test('Update User', async () => {
@@ -60,6 +62,8 @@ describe('User Tests', () => {
 
         const findResponse = await UserDAO.getAll();
 
-        expect(manyUsers.length).toBe(findResponse.length);
+        findResponse.forEach(user =>
+            expect(user).toBeInstanceOf(UserDTO)
+        );
     });
 });
