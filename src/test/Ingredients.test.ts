@@ -14,7 +14,7 @@ describe('Ingredients Test', () => {
         const ingredientDTO = new IngredientDTO('Cebolla', 30);
         const insertResponse = await IngredientDAO.insert(ingredientDTO);
 
-        expect(insertResponse).toBeTruthy();
+        expect(insertResponse).toBeInstanceOf(IngredientDTO);
     });
 
     test('Insert Many Ingredient', async () => {
@@ -25,7 +25,10 @@ describe('Ingredients Test', () => {
         ];
 
         const insertResponse = await IngredientDAO.insertMany(ingredientDTO);
-        expect(insertResponse).toBeTruthy();
+
+        insertResponse.forEach(ingredient =>
+            expect(ingredient).toBeInstanceOf(IngredientDTO)
+        );
     });
 
     test('Update Ingredient', async () => {

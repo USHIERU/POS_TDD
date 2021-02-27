@@ -62,8 +62,6 @@ describe('User Tests', () => {
 
         const findResponse = await UserDAO.getAll();
 
-        findResponse.forEach(user =>
-            expect(user).toBeInstanceOf(UserDTO)
-        );
+        expect(manyUsers.length).toBe(findResponse.length);
     });
 });

@@ -47,7 +47,7 @@ describe('Products Test', () => {
         const productDTO = new ProductDTO('productTest', 10, 50);
         const response = await ProductDAO.insert(productDTO);
 
-        expect(response).toBeTruthy();
+        expect(response).toBeInstanceOf(ProductDTO);
     });
 
     test('Insert many Products', async () => {
@@ -55,9 +55,12 @@ describe('Products Test', () => {
             new ProductDTO('productTest', 10, 50),
             new ProductDTO('productTest2', 10, 50)
         ]
+
         const response = await ProductDAO.insertMany(productsDTO);
 
-        expect(response.length).toBe(2);
+        response.forEach(product =>
+            expect(product).toBeInstanceOf(ProductDTO)
+        );
     });
 
     test('Update Products', async () => {
