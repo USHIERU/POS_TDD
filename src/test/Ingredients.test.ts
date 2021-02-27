@@ -5,6 +5,10 @@ beforeEach(async () => {
     return await IngredientDAO.clearDataBase();
 });
 
+afterAll(async () => {
+    return await IngredientDAO.clearDataBase();
+});
+
 describe('Ingredients Test', () => {
     test('Insert Ingredient', async () => {
         const ingredientDTO = new IngredientDTO('Cebolla', 30);

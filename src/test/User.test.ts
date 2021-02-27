@@ -1,9 +1,13 @@
-import UserDAO from './../DAO/UserDAO';
-import UserDTO from './../DTO/UserDTO';
+import UserDAO from '../DAO/UserDAO';
+import UserDTO from '../DTO/UserDTO';
 
 beforeEach(async () => {
     return await UserDAO.clearDataBase();
 });
+
+afterAll(async () => {
+    return await UserDAO.clearDataBase();
+})
 
 describe('User Tests', () => {
     test('Insert User', async () => {
