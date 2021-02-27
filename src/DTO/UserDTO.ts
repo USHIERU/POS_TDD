@@ -10,14 +10,27 @@ export default class UserDTO {
     public user: string;
     public password: number;
 
-    constructor(name: string, lastname: string, job: string, permits: number, status: UserDTOStatus, user: string, password: number, id = '') {
-        this._id = id;
-        this.name = name;
-        this.lastname = lastname;
-        this.job = job;
-        this.permits = permits;
-        this.status = status;
-        this.user = user;
-        this.password = password;
+    constructor(_name: string | object, lastname?: string, job?: string, permits?: number, status?: UserDTOStatus, user?: string, password?: number, id = '') {
+        if (typeof _name === 'object') {
+            const { _id, name, lastname, job, permits,
+                status, user, password } = _name as UserDTO;
+            this._id = _id;
+            this.name = name;
+            this.lastname = lastname;
+            this.job = job;
+            this.permits = permits;
+            this.status = status;
+            this.user = user;
+            this.password = password;
+        } else if (typeof _name === 'string') {
+            this._id = id;
+            this.name = _name;
+            this.lastname = lastname;
+            this.job = job;
+            this.permits = permits;
+            this.status = status;
+            this.user = user;
+            this.password = password;
+        }
     }
 }
