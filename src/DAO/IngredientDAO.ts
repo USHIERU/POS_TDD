@@ -30,7 +30,7 @@ class IngredientDAO {
                 if (err) {
                     resolve(null)
                 } else {
-                    resolve(doc)
+                    resolve(new IngredientDTO(doc))
                 }
             })
         );
@@ -43,7 +43,7 @@ class IngredientDAO {
                 if (err) {
                     resolve(null)
                 } else {
-                    resolve(docs)
+                    resolve(docs.map(doc => new IngredientDTO(doc)))
                 }
             })
         );
@@ -67,11 +67,11 @@ class IngredientDAO {
 
     public async findOne(id: string): Promise<IngredientDTO> {
         return await new Promise(resolve =>
-            this.database.findOne({ _id: id }, (err, docs) => {
+            this.database.findOne({ _id: id }, (err, doc) => {
                 if (err) {
                     resolve(null)
                 } else {
-                    resolve(docs)
+                    resolve(new IngredientDTO(doc))
                 }
             })
         );
@@ -83,7 +83,7 @@ class IngredientDAO {
                 if (err) {
                     resolve(null)
                 } else {
-                    resolve(docs)
+                    resolve(docs.map(doc => new IngredientDTO(doc)))
                 }
             })
         );
@@ -94,7 +94,13 @@ class IngredientDAO {
             this.database.remove(
                 {},
                 { multi: true },
-                (err, _) => err ? resolve(true) : resolve(false)
+                (err, _) => {
+                    if (err) {
+                        resolve(false)
+                    } else {
+                        resolve(true)
+                    }
+                }
             )
         );
     }
