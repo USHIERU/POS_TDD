@@ -14,7 +14,7 @@ class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements Inte
         return await new Promise(resolve =>
             this.connection.insert(ingredientDTO, (err, doc) => {
                 if (err) {
-                    resolve(null)
+                    throw err;
                 } else {
                     resolve(new IngredientDTO(doc))
                 }
@@ -27,7 +27,7 @@ class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements Inte
         return await new Promise(resolve =>
             this.connection.insert(ingredientDTO, (err, docs) => {
                 if (err) {
-                    resolve(null)
+                    throw err;
                 } else {
                     resolve(docs.map(doc => new IngredientDTO(doc)))
                 }
@@ -39,7 +39,7 @@ class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements Inte
         return await new Promise(resolve =>
             this.connection.update({ _id: id }, ingredientDTO, {}, (err, countDocs) => {
                 if (err) {
-                    resolve(false)
+                    throw err;
                 } else {
                     if (countDocs > 0) {
                         resolve(true)
@@ -55,7 +55,7 @@ class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements Inte
         return await new Promise(resolve =>
             this.connection.findOne({ _id: id }, (err, doc) => {
                 if (err) {
-                    resolve(null)
+                    throw err;
                 } else {
                     resolve(new IngredientDTO(doc))
                 }
@@ -67,7 +67,7 @@ class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements Inte
         return await new Promise(resolve =>
             this.connection.find({}, (err: Error, docs: IngredientDTO[]) => {
                 if (err) {
-                    resolve(null)
+                    throw err;
                 } else {
                     resolve(docs.map(doc => new IngredientDTO(doc)))
                 }
@@ -82,7 +82,7 @@ class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements Inte
                 { multi: true },
                 (err, _) => {
                     if (err) {
-                        resolve(false)
+                        throw err;
                     } else {
                         resolve(true)
                     }

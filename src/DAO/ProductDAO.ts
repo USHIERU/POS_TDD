@@ -14,7 +14,7 @@ class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceD
         return await new Promise(resolve =>
             this.connection.insert(productDTO, (err, doc) => {
                 if (err) {
-                    resolve(null);
+                    throw err;
                 } else {
                     resolve(new ProductDTO(doc));
                 }
@@ -27,7 +27,7 @@ class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceD
         return await new Promise(resolve =>
             this.connection.insert(productsDTO, (err, docs) => {
                 if (err) {
-                    resolve(null);
+                    throw err;
                 } else {
                     resolve(docs.map(doc => new ProductDTO(doc)));
                 }
@@ -40,7 +40,7 @@ class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceD
         return await new Promise(resolve =>
             this.connection.update({ _id: id }, { $set: productDTO }, {}, (err, countDocs) => {
                 if (err) {
-                    resolve(null)
+                    throw err;
                 } else {
                     if (countDocs > 0) {
                         resolve(true)
@@ -55,8 +55,8 @@ class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceD
     public async findOne(id: string): Promise<ProductDTO> {
         return await new Promise(resolve =>
             this.connection.findOne({ _id: id }, (err, doc) => {
-                if (err) console.log(err)
-                err ? resolve(null) : resolve(new ProductDTO(doc))
+                if (err) throw err;
+                resolve(new ProductDTO(doc))
             })
         );
     }
@@ -64,8 +64,8 @@ class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceD
     public async getAll(): Promise<ProductDTO[]> {
         return await new Promise(resolve =>
             this.connection.find({}, (err, docs) => {
-                if (err) console.log(err)
-                err ? resolve(null) : resolve(docs.map(doc => new ProductDTO(doc)))
+                if (err) throw err;
+                resolve(docs.map(doc => new ProductDTO(doc)))
             })
         );
     }
@@ -75,7 +75,13 @@ class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceD
             this.connection.remove(
                 {},
                 { multi: true },
-                (err, _) => err ? resolve(true) : resolve(false)
+                (err, _) => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        resolve(true)
+                    }
+                }
             )
         );
     }
