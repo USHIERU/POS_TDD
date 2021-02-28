@@ -11,7 +11,7 @@ class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<Use
 
     public async insert(userDTO: UserDTO): Promise<UserDTO> {
         delete userDTO._id;
-        return await new Promise(resolve =>
+        return new Promise(resolve =>
             this.connection.insert(userDTO, (err, doc) => {
                 if (err) {
                     throw err;
@@ -24,7 +24,7 @@ class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<Use
 
     public async insertMany(usersDTO: UserDTO[]): Promise<UserDTO[]> {
         usersDTO = usersDTO.map(userDTO => { delete userDTO._id; return userDTO });
-        return await new Promise(resolve =>
+        return new Promise(resolve =>
             this.connection.insert(usersDTO, (err, docs) => {
                 if (err) {
                     throw err;
@@ -37,7 +37,7 @@ class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<Use
 
     public async update(id: string, userDTO: UserDTO): Promise<boolean> {
         delete userDTO._id
-        return await new Promise(resolve =>
+        return new Promise(resolve =>
             this.connection.update({ _id: id }, { $set: userDTO }, {}, (err, countDocs) => {
                 if (err) {
                     throw err;
@@ -53,7 +53,7 @@ class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<Use
     }
 
     public async findOne(id: string): Promise<UserDTO> {
-        return await new Promise(resolve =>
+        return new Promise(resolve =>
             this.connection.findOne({ _id: id }, (err, doc) => {
                 if (err) throw err;
                 resolve(new UserDTO(doc))
@@ -62,7 +62,7 @@ class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<Use
     }
 
     public async getAll(): Promise<UserDTO[]> {
-        return await new Promise(resolve =>
+        return new Promise(resolve =>
             this.connection.find({}, (err, docs) => {
                 if (err) throw err;
                 resolve(docs.map(doc => new UserDTO(doc)))
@@ -71,7 +71,7 @@ class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<Use
     }
 
     public async clearDataBase(): Promise<boolean> {
-        return await new Promise(resolve =>
+        return new Promise(resolve =>
             this.connection.remove(
                 {},
                 { multi: true },
