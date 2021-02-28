@@ -1,26 +1,12 @@
 import ProductDTO from './../DTO/ProductDTO';
 import InterfaceDAO from './../models/InterfaceDAO';
 import Connection from './../models/Connection';
-import DB from './../DB'
+import { products } from './../DB'
 import * as Datastore from 'nedb';
 
 class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceDAO<ProductDTO> {
     constructor(database: Datastore) {
         super(database);
-        Promise.all(
-            [
-                this.createUniqueKey('name')
-            ]
-        ).then(() => { });
-    }
-
-    private async createUniqueKey(fieldName: string): Promise<boolean> {
-        return await new Promise(resolve =>
-            this.connection.ensureIndex(
-                { fieldName: fieldName, unique: true },
-                (err) => err ? new Error(err.message) : resolve(true)
-            )
-        );
     }
 
     public async insert(productDTO: ProductDTO): Promise<ProductDTO> {
@@ -95,4 +81,4 @@ class ProductDAO extends Connection<Datastore<ProductDTO>> implements InterfaceD
     }
 }
 
-export default new ProductDAO(DB.products);
+export default new ProductDAO(products);

@@ -1,27 +1,12 @@
 import UserDTO from './../DTO/UserDTO';
 import InterfaceDAO from './../models/InterfaceDAO';
 import Connection from './../models/Connection';
-import DB from './../DB';
+import { users } from './../DB';
 import * as Datastore from 'nedb';
 
 class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<UserDTO>{
     constructor(database: Datastore) {
         super(database);
-        Promise.all(
-            [
-                this.createUniqueKey('user'),
-                this.createUniqueKey('password')
-            ]
-        ).then(() => { });
-    }
-
-    private async createUniqueKey(fieldName: string): Promise<boolean> {
-        return await new Promise(resolve =>
-            this.connection.ensureIndex(
-                { fieldName: fieldName, unique: true },
-                (err) => err ? new Error(err.message) : resolve(true)
-            )
-        );
     }
 
     public async insert(userDTO: UserDTO): Promise<UserDTO> {
@@ -96,4 +81,4 @@ class UserDAO extends Connection<Datastore<UserDTO>> implements InterfaceDAO<Use
     }
 }
 
-export default new UserDAO(DB.users);
+export default new UserDAO(users);

@@ -1,26 +1,12 @@
 import IngredientDTO from './../DTO/IngredientDTO';
 import InterfaceDAO from './../models/InterfaceDAO';
 import Connection from './../models/Connection';
-import DB from './../DB'
+import { ingredients } from './../DB'
 import * as Datastore from 'nedb';
 
 class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements InterfaceDAO<IngredientDTO> {
     constructor(connection: Datastore) {
         super(connection);
-        Promise.all(
-            [
-                this.createUniqueKey('name')
-            ]
-        ).then(() => { });
-    }
-
-    private async createUniqueKey(fieldName: string): Promise<boolean> {
-        return await new Promise(resolve =>
-            this.connection.ensureIndex(
-                { fieldName: fieldName, unique: true },
-                (err) => err ? new Error(err.message) : resolve(true)
-            )
-        );
     }
 
     public async insert(ingredientDTO: IngredientDTO): Promise<IngredientDTO> {
@@ -106,4 +92,4 @@ class IngredientDAO extends Connection<Datastore<IngredientDTO>> implements Inte
     }
 }
 
-export default new IngredientDAO(DB.ingredients);
+export default new IngredientDAO(ingredients);
