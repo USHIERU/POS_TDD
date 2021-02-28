@@ -1,5 +1,9 @@
+import UniqueKey from './../decorators/UniqueKey';
+import { ingredients } from './../DB/index'
+
 export default class IngredientDTO {
     public _id: string;
+    @UniqueKey(ingredients)
     public name: string;
     public quantity: number;
     public price: number;

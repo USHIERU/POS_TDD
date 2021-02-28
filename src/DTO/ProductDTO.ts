@@ -1,7 +1,10 @@
+import UniqueKey from './../decorators/UniqueKey';
+import { products } from './../DB/index'
 import IngredientDTO from './IngredientDTO';
 
 export default class ProductDTO {
     public _id: string;
+    @UniqueKey(products)
     public name: string;
     public quantity: number;
     public price: number;

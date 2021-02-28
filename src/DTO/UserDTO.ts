@@ -1,4 +1,6 @@
 import UserDTOStatus from './enums/UserDTOStatus'
+import UniqueKey from './../decorators/UniqueKey';
+import { users } from './../DB/index'
 
 export default class UserDTO {
     public _id: string;
@@ -7,7 +9,9 @@ export default class UserDTO {
     public job: string;
     public permits: number;
     public status: UserDTOStatus;
+    @UniqueKey(users)
     public user: string;
+    @UniqueKey(users)
     public password: number;
 
     constructor(_name: string | object, lastname?: string, job?: string, permits?: number, status?: UserDTOStatus, user?: string, password?: number, id = '') {
